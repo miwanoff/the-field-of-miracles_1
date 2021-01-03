@@ -173,4 +173,6 @@ class Host {
 }
 
 const game = new Game("City");
-game.run();
+//game.run();
+
+go.addEventListener("click", game.run.bind(game));
