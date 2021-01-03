@@ -3,7 +3,7 @@ const letterIndex = document.getElementById("letterIndex");
 const go = document.getElementById("go");
 
 const playersField = document.getElementById("players");
-let availableLetter = [
+let availableLetters = [
   "A",
   "B",
   "C",
@@ -67,10 +67,10 @@ class Player {
 // alert(player.name);
 
 class BotPlayer extends Player {
-  async chooseLetter(availableLetter) {
-    const idx = Math.floor(Math.random() * availableLetter.length);
-    console.log(availableLetter[idx]);
-    return availableLetter[idx];
+  async chooseLetter(availableLetters) {
+    const idx = Math.floor(Math.random() * availableLetters.length);
+    console.log(availableLetters[idx]);
+    return availableLetters[idx];
   }
 
   render() {
@@ -81,9 +81,9 @@ class BotPlayer extends Player {
 class HumanPlayer extends Player {
   resolveChooseLetterPromise;
 
-  async chooseLetter(availableLetter) {
+  async chooseLetter(availableLetters) {
     // this.#choosenLetterIndex = prompt(
-    //   `Input your letter number from 0 to ${availableLetter.length}`
+    //   `Input your letter number from 0 to ${availableLetters.length}`
     // );
 
     let promise = new Promise((resolve, reject) => {
@@ -91,15 +91,15 @@ class HumanPlayer extends Player {
     });
     let letterIndex = await promise;
 
-    console.log(availableLetter[letterIndex]);
-    return availableLetter[letterIndex];
+    console.log(availableLetters[letterIndex]);
+    return availableLetters[letterIndex];
   }
 }
 
 // const botPlayer = new BotPlayer("Watson");
-// botPlayer.chooseLetter(availableLetter);
+// botPlayer.chooseLetter(availableLetters);
 // const humanPlayer = new HumanPlayer("You");
-// humanPlayer.chooseLetter(availableLetter);
+// humanPlayer.chooseLetter(availableLetters);
 
 class Game {
   #host;
@@ -167,14 +167,13 @@ class Game {
     // Приветствие
     this.#host.sayHi(this.#players);
     this.render();
-    let counter;
-    // while (counter < 3) {
-    for (let i = 0; i < this.#players.length; i++) {
-      this.setCurrentPlayer(i);
-      // this.currentPlayer.chooseLetter(availableLetter);
-      const letter = await this.currentPlayer.chooseLetter(availableLetter);
+    while (true) {
+      for (let i = 0; i < this.#players.length; i++) {
+        this.currentPlayer = this.#players[i];
+        console.log("choosing letter for " + this.currentPlayer.name);
+        const letter = await this.currentPlayer.chooseLetter(availableLetters);
+      }
     }
-    // }
   }
 
   render() {
