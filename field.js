@@ -50,12 +50,12 @@ class Spin {
 class Player {
   #name;
 
-  constructor(name) {
-    this.#name = name;
+  get name() {
+    return this.#name;
   }
 
-  getName() {
-    return this.#name;
+  constructor(name) {
+    this.#name = name;
   }
 
   async chooseLetter() {}
@@ -64,7 +64,7 @@ class Player {
 }
 
 // const player = new Player("Ватсон");
-// alert(player.getName());
+// alert(player.name);
 
 class BotPlayer extends Player {
   async chooseLetter(availableLetter) {
@@ -74,7 +74,7 @@ class BotPlayer extends Player {
   }
 
   render() {
-    playersField.innerHTML += `<img src="images/${this.getName()}.png">`;
+    playersField.innerHTML += `<img src="images/${this.name}.png">`;
   }
 }
 
@@ -190,10 +190,10 @@ class Host {
   sayHi(players) {
     // let str = "";
     // for (let i = 0; i < players.length; i++) {
-    //   str += players[i].getName() + " ";
+    //   str += players[i].name + " ";
     // }
     // Привет всем игрокам !
-    const playersNames = players.map((item) => item.getName());
+    const playersNames = players.map((item) => item.name);
     alert("Hello! " + playersNames.join(", "));
   }
 }
