@@ -2,6 +2,7 @@ const getLetter = document.getElementById("getLetter");
 const letterIndex = document.getElementById("letterIndex");
 const go = document.getElementById("go");
 
+const playersField = document.getElementById("players");
 let availableLetter = [
   "A",
   "B",
@@ -57,29 +58,43 @@ class Player {
     return this.#name;
   }
 
-  chooseLetter() {}
+  async chooseLetter() {}
+
+  render() {}
 }
 
 // const player = new Player("Ватсон");
 // alert(player.getName());
 
 class BotPlayer extends Player {
-  chooseLetter(availableLetter) {
+  async chooseLetter(availableLetter) {
     const idx = Math.floor(Math.random() * availableLetter.length);
     console.log(availableLetter[idx]);
     return availableLetter[idx];
+  }
+
+  render() {
+    playersField.innerHTML += `<img src="images/${this.getName()}.png">`;
   }
 }
 
 class HumanPlayer extends Player {
   #choosenLetterIndex;
 
-  chooseLetter(availableLetter) {
-    this.#choosenLetterIndex = prompt(
-      `Input your letter number from 0 to ${availableLetter.length}`
-    );
-    console.log(availableLetter[this.#choosenLetterIndex]);
-    return availableLetter[this.#choosenLetterIndex];
+  resolveChooseLetterPromise;
+
+  async chooseLetter(availableLetter) {
+    // this.#choosenLetterIndex = prompt(
+    //   `Input your letter number from 0 to ${availableLetter.length}`
+    // );
+
+    let promise = new Promise((resolve, reject) => {
+      this.resolveChooseLetterPromise = resolve;
+    });
+    let letterIndex = await promise;
+
+    console.log(availableLetter[letterIndex]);
+    return availableLetter[letterIndex];
   }
 }
 
@@ -150,12 +165,22 @@ class Game {
     return this.#currentPlayer;
   }
 
-  run() {
+  async run() {
     // Приветствие
     this.#host.sayHi(this.#players);
+    this.render();
     for (let i = 0; i < this.#players.length; i++) {
       this.setCurrentPlayer(i);
-      this.getCurrentPlayer().chooseLetter(availableLetter);
+      // this.getCurrentPlayer().chooseLetter(availableLetter);
+      const letter = await this.getCurrentPlayer().chooseLetter(
+        availableLetter
+      );
+    }
+  }
+
+  render() {
+    for (let i = 0; i < this.#players.length; i++) {
+      this.#players[i].render();
     }
   }
 }
@@ -176,3 +201,7 @@ const game = new Game("City");
 //game.run();
 
 go.addEventListener("click", game.run.bind(game));
+
+getLetter.addEventListener("click", () => {
+  game.getCurrentPlayer().resolveChooseLetterPromise(letterIndex.value);
+});
