@@ -79,8 +79,6 @@ class BotPlayer extends Player {
 }
 
 class HumanPlayer extends Player {
-  #choosenLetterIndex;
-
   resolveChooseLetterPromise;
 
   async chooseLetter(availableLetter) {
@@ -169,6 +167,8 @@ class Game {
     // Приветствие
     this.#host.sayHi(this.#players);
     this.render();
+    let counter;
+    // while (counter < 3) {
     for (let i = 0; i < this.#players.length; i++) {
       this.setCurrentPlayer(i);
       // this.getCurrentPlayer().chooseLetter(availableLetter);
@@ -176,6 +176,7 @@ class Game {
         availableLetter
       );
     }
+    // }
   }
 
   render() {
