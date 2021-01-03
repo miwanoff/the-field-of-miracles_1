@@ -161,7 +161,7 @@ class Game {
 
 class Host {
   sayHi(players) {
-    // Привет всем игрокам
+    // Привет всем игрокам !
   }
 }
 
