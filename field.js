@@ -185,18 +185,12 @@ class Game {
 
 class Host {
   sayHi(players) {
-    // let str = "";
-    // for (let i = 0; i < players.length; i++) {
-    //   str += players[i].name + " ";
-    // }
-    // Привет всем игрокам !
     const playersNames = players.map((item) => item.name);
     alert("Hello! " + playersNames.join(", "));
   }
 }
 
 const game = new Game("City");
-//game.run();
 
 go.addEventListener("click", game.run.bind(game));
 
