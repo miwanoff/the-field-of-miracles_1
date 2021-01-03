@@ -108,6 +108,14 @@ class Game {
 
   #currentPlayer;
 
+  get currentPlayer() {
+    return this.#currentPlayer;
+  }
+
+  set currentPlayer(value) {
+    this.#currentPlayer = value;
+  }
+
   #themeWords = [
     {
       title: "Auto",
@@ -155,14 +163,6 @@ class Game {
     console.log(this.#targetWord);
   }
 
-  setCurrentPlayer(n) {
-    this.#currentPlayer = this.#players[n];
-  }
-
-  getCurrentPlayer() {
-    return this.#currentPlayer;
-  }
-
   async run() {
     // Приветствие
     this.#host.sayHi(this.#players);
@@ -171,10 +171,8 @@ class Game {
     // while (counter < 3) {
     for (let i = 0; i < this.#players.length; i++) {
       this.setCurrentPlayer(i);
-      // this.getCurrentPlayer().chooseLetter(availableLetter);
-      const letter = await this.getCurrentPlayer().chooseLetter(
-        availableLetter
-      );
+      // this.currentPlayer.chooseLetter(availableLetter);
+      const letter = await this.currentPlayer.chooseLetter(availableLetter);
     }
     // }
   }
@@ -204,5 +202,5 @@ const game = new Game("City");
 go.addEventListener("click", game.run.bind(game));
 
 getLetter.addEventListener("click", () => {
-  game.getCurrentPlayer().resolveChooseLetterPromise(letterIndex.value);
+  game.currentPlayer.resolveChooseLetterPromise(letterIndex.value);
 });
