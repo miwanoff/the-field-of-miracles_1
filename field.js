@@ -152,6 +152,7 @@ class Game {
 
   run() {
     // Приветствие
+    this.#host.sayHi(this.#players);
     for (let i = 0; i < this.#players.length; i++) {
       this.setCurrentPlayer(i);
       this.getCurrentPlayer().chooseLetter(availableLetter);
@@ -161,7 +162,13 @@ class Game {
 
 class Host {
   sayHi(players) {
+    // let str = "";
+    // for (let i = 0; i < players.length; i++) {
+    //   str += players[i].getName() + " ";
+    // }
     // Привет всем игрокам !
+    const playersNames = players.map((item) => item.getName());
+    alert("Hello! " + playersNames.join(", "));
   }
 }
 
