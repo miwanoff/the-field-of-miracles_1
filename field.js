@@ -137,6 +137,26 @@ class Game {
         mosque: "мечеть",
       },
     },
+    {
+      title: "Character",
+      words: {
+        curious: "любопытный",
+        obedient: "послушный",
+        determined: "настойчивый",
+        caring: "заботливый",
+        independent: "независимый",
+      },
+    },
+    {
+      title: "Family",
+      words: {
+        stepfather: "отчим",
+        stepmother: "мачеха",
+        "ex-wife": "бывшая жена",
+        "husband-to-be": "будущий муж",
+        godmother: "крёстная",
+      },
+    },
   ];
 
   #botNames = ["Watson", "Sherlock", "Potter", "Germiona"];
@@ -205,7 +225,7 @@ class Host {
   }
 }
 
-const game = new Game("City");
+const game = new Game("Family");
 
 go.addEventListener("click", game.run.bind(game));
 
