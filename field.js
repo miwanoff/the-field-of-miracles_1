@@ -1,5 +1,7 @@
-const getLetter = document.getElementById("getLetter");
-const letterIndex = document.getElementById("letterIndex");
+const getLetter = document.getElementById("get_letter");
+const letterIndex = document.getElementById("letter_index");
+const letters = document.getElementById("letters");
+const newGame = document.getElementById("new_game");
 const go = document.getElementById("go");
 
 const playersField = document.getElementById("players");
@@ -215,6 +217,16 @@ class Game {
     for (let i = 0; i < this.#players.length; i++) {
       this.#players[i].render();
     }
+    for (let i = 0; i < availableLetters.length; i++) {
+      const letter = availableLetters[i];
+      letters.innerHTML += `${letter} `;
+    }
+    go.disabled = true;
+  }
+
+  newGame() {
+    location.reload();
+    return false;
   }
 }
 
@@ -228,6 +240,8 @@ class Host {
 const game = new Game("Family");
 
 go.addEventListener("click", game.run.bind(game));
+
+newGame.addEventListener("click", game.newGame.bind(game));
 
 getLetter.addEventListener("click", () => {
   game.currentPlayer.resolveChooseLetterPromise(letterIndex.value);
