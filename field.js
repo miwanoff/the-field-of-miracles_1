@@ -1,13 +1,15 @@
 const getLetter = document.getElementById("get_letter");
 const letterIndex = document.getElementById("letter_index");
 const letters = document.getElementById("letters");
+const letterField = document.getElementById("letter");
 const newGame = document.getElementById("new_game");
 const spin = document.getElementById("spin");
 const spinRandom = document.getElementById("spin_random");
 
+const playersField = document.getElementById("players");
+
 const go = document.getElementById("go");
 
-const playersField = document.getElementById("players");
 let availableLetters = [
   "A",
   "B",
@@ -223,15 +225,21 @@ class Game {
     this.render();
     while (true) {
       for (let i = 0; i < this.#players.length; i++) {
-        console.log(`Spin: ${this.#spin.getField()}`);
+        const randSpin = this.#spin.getField();
+        console.log(`Spin: ${randSpin}`);
         this.currentPlayer = this.#players[i];
         console.log("choosing letter for " + this.currentPlayer.name);
         const letter = await this.currentPlayer.chooseLetter(availableLetters);
+        this.render(randSpin, letter);
       }
     }
   }
 
-  render() {
+  render(randSpin = "", letter = "") {
+    letters.innerHTML = "";
+    spinRandom.innerHTML = "";
+    playersField.innerHTML = "";
+
     for (let i = 0; i < this.#players.length; i++) {
       this.#players[i].render();
     }
@@ -240,6 +248,8 @@ class Game {
       letters.innerHTML += `${letter} `;
     }
     this.#spin.render();
+    spinRandom.innerHTML = randSpin;
+    letterField.innerHTML = letter;
     go.disabled = true;
   }
 
