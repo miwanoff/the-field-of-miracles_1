@@ -119,11 +119,23 @@ class Game {
   #themeWords = [
     {
       title: "Auto",
-      words: ["accumulator", "armrest", "brakes", "chassis", "clutch"],
+      words: {
+        accumulator: "аккумулятор",
+        armrest: "подлокотник",
+        brakes: "тормоза",
+        chassis: "шасси",
+        clutch: "сцепление",
+      },
     },
     {
       title: "City",
-      words: ["library", "hospital", "gallery", "stall", "mosque"],
+      words: {
+        library: "библиотека",
+        hospital: "больница",
+        gallery: "галлерея",
+        stall: "киоск",
+        mosque: "мечеть",
+      },
     },
   ];
 
@@ -156,7 +168,10 @@ class Game {
     for (const theme of this.#themeWords) {
       if (theme.title == themeTitle) {
         const words = theme.words;
-        this.#targetWord = words[Math.floor(Math.random() * words.length)];
+        // this.#targetWord = words[Math.floor(Math.random() * words.length)];
+        let enWords = Object.keys(words); // keys of the words array (english words), a regular array
+        let randEnWord = enWords[Math.floor(Math.random() * enWords.length)]; //a random value from enWords array (a word in English)
+        this.#targetWord = randEnWord;
         break;
       }
     }
