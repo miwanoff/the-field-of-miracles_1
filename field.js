@@ -2,6 +2,9 @@ const getLetter = document.getElementById("get_letter");
 const letterIndex = document.getElementById("letter_index");
 const letters = document.getElementById("letters");
 const newGame = document.getElementById("new_game");
+const spin = document.getElementById("spin");
+const spinRandom = document.getElementById("spin_random");
+
 const go = document.getElementById("go");
 
 const playersField = document.getElementById("players");
@@ -35,14 +38,19 @@ let availableLetters = [
 ];
 
 class Spin {
-  sectors = ["100", "250", "*"];
+  #sectors = ["100", "250", "*"];
 
   constructor(sectors = null) {
     if (sectors != null) this.sectors = sectors;
   }
+
   getField() {
-    let n = Math.floor(Math.random() * this.sectors.length);
-    return this.sectors[n];
+    let n = Math.floor(Math.random() * this.#sectors.length);
+    return this.#sectors[n];
+  }
+
+  render() {
+    spin.innerHTML = this.#sectors;
   }
 }
 
@@ -110,6 +118,8 @@ class Game {
 
   #currentPlayer;
 
+  #spin;
+
   get currentPlayer() {
     return this.#currentPlayer;
   }
@@ -167,8 +177,15 @@ class Game {
 
   #targetWord;
 
-  constructor(themeTitle = "Auto", humenPlayerNames = ["You"], botCount = 2) {
+  constructor(
+    themeTitle = "Auto",
+    humenPlayerNames = ["You"],
+    botCount = 2,
+    spin = new Spin()
+  ) {
     this.#host = new Host();
+    this.#spin = spin;
+
     for (let name of humenPlayerNames) {
       this.#players.push(new HumanPlayer(name));
     }
@@ -206,6 +223,7 @@ class Game {
     this.render();
     while (true) {
       for (let i = 0; i < this.#players.length; i++) {
+        console.log(`Spin: ${this.#spin.getField()}`);
         this.currentPlayer = this.#players[i];
         console.log("choosing letter for " + this.currentPlayer.name);
         const letter = await this.currentPlayer.chooseLetter(availableLetters);
@@ -221,6 +239,7 @@ class Game {
       const letter = availableLetters[i];
       letters.innerHTML += `${letter} `;
     }
+    this.#spin.render();
     go.disabled = true;
   }
 
